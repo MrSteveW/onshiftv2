@@ -1,5 +1,5 @@
+import ArchiveButton from '@/components/ArchiveButton';
 import Layout from '@/components/Layout';
-import StaffArchiveButton from '@/components/StaffArchiveButton';
 import { useForm } from '@inertiajs/react';
 
 interface Staffmember {
@@ -82,14 +82,14 @@ export default function Edit({ staffmember }: Props) {
                         Cancel
                     </a>
 
-                    <StaffArchiveButton
+                    <ArchiveButton
                         url={`/staff/${staffmember.id}`}
                         confirmMessage="Are you sure you want to archive this staff member?"
                         disabled={processing}
                         className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
                     >
                         Archive
-                    </StaffArchiveButton>
+                    </ArchiveButton>
                 </div>
             </form>
         </Layout>

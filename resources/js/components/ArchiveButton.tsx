@@ -8,7 +8,7 @@ interface DeleteButtonProps {
     disabled?: boolean;
 }
 
-export default function StaffArchiveButton({
+export default function ArchiveButton({
     url,
     confirmMessage = 'Are you sure you want to archive this?',
     className = '',

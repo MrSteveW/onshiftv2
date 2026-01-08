@@ -35,38 +35,38 @@ class StaffmemberController extends Controller
     }
 
 
-    public function show(Staffmember $staffmember)
-    {
-        return Inertia::render('Staff/Show', [
-         'staffmember' => new StaffmemberResource($staffmember)
-        ]);
-    }
+    public function show(Staffmember $staff)
+{
+    return Inertia::render('Staff/Show', [
+        'staffmember' => $staff
+    ]);
+}
 
-    public function edit(Staffmember $staffmember)
+    public function edit(Staffmember $staff)
     {
          return Inertia::render('Staff/Edit', [
-         'staffmember' => new StaffmemberResource($staffmember)
+         'staffmember' => new StaffmemberResource($staff)
         ]);
     }
 
-    public function update(Staffmember $staffmember)
+    public function update(Staffmember $staff)
     {
         request()->validate([
             'name'=>['required'],
             'role'=>['required']
         ]);
 
-        $staffmember->update([
+        $staff->update([
             'name' => request('name'),
             'role' => request('role'),
         ]);
-        return redirect('staff/'.$staffmember->id);
-
+        
+        return redirect('staff/'.$staff->id);
     }
 
-    public function destroy(Staffmember $staffmember)
+    public function destroy(Staffmember $staff)
     {
-        $staffmember->delete();
+        $staff->delete();
         return redirect('/staff');
     }
 }

@@ -44,7 +44,9 @@ class StaffmemberController extends Controller
 
     public function edit(Staffmember $staffmember)
     {
-        return view('staff.edit', ['staffmember' => $staffmember]);
+         return Inertia::render('Staff/Edit', [
+         'staffmember' => new StaffmemberResource($staffmember)
+        ]);
     }
 
     public function update(Staffmember $staffmember)

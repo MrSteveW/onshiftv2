@@ -6,9 +6,9 @@ use App\Http\Controllers\StaffmemberController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\DutyController;
 
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
+Route::get('/', [StaffmemberController::class, 'board']);
+
+Route::get('/board', [StaffmemberController::class, 'board']);
 
 // Route::get('/staff', [StaffmemberController::class, 'index']);
 // Route::get('/staff/create', [StaffmemberController::class, 'create']);
@@ -20,4 +20,4 @@ Route::get('/', function () {
 
 Route::resource('staff', StaffmemberController::class);
 Route::resource('tasks', TaskController::class);
-Route::resource('duty', DutyController::class);
+Route::resource('duties', DutyController::class);

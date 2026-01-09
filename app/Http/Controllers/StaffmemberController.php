@@ -8,6 +8,32 @@ use Inertia\Inertia;
 
 class StaffmemberController extends Controller
 {
+    public function board()
+    {
+        // Get all staffmembers and convert them to duties for the drag-and-drop board
+        $staffmembers = Staffmember::all();
+        
+        $duties = $staffmembers->map(function ($staffmember) {
+            return [
+                'id' => $staffmember->id,
+                'staffmember_id' => $staffmember->id,
+                'task_id' => null, // No task assigned initially
+                'shift_type' => null,
+                'hours' => null,
+                'analyser_id' => null, // All start as unassigned
+                'staffmember' => [
+                    'id' => $staffmember->id,
+                    'name' => $staffmember->name,
+                    'role' => $staffmember->role,
+                ],
+                'task' => null,
+            ];
+        });
+
+        return Inertia::render('Home', [
+            'duties' => $duties
+        ]);
+    }
     public function index()
     {
          return Inertia::render('Staff/Index', [

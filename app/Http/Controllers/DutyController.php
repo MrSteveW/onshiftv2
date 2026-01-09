@@ -5,42 +5,54 @@ namespace App\Http\Controllers;
 use App\Models\Duty;
 use App\Models\Staffmember;
 use App\Models\Task;
+use App\Http\Resources\DutyResource;
+use App\Http\Resources\StaffmemberResource;
+use App\Http\Resources\TaskResource;
+use Inertia\Inertia;
+
 
 class DutyController extends Controller
 {
     public function index()
     {
-        return view('duties.index', [
-            'duties' => Duty::with(['staffmember', 'task'])->get()
+        return Inertia::render('Duties/Index', [
+            'duties' => DutyResource::collection(Duty::with(['staffmember', 'task'])->get())
         ]);
     }
 
 
     public function create()
     {
-        return view('duties.create',[
-            'staff' => Staffmember::all(),
-            'task' => Task::all()
+         return Inertia::render('Duties/Create' ,[
+               'staff' => StaffmemberResource::collection(Staffmember::all()),
+               'tasks' => TaskResource::collection(Task::all())
         ]);
     }
 
     public function store()
     {
-        request()->validate([
-        'staffmember_id'=>['required'],
-        'task_id'=>['required'],
-        'dutydate'=>['required'],
-        ]);
+    // Validate that we receive an array of duties
+    request()->validate([
+        'duties' => ['required', 'array'],
+        'duties.*.staffmember_id' => ['required', 'integer'],
+        'duties.*.task_id' => ['required', 'integer'], 
+        'duties.*.dutydate' => ['required', 'date'],
+    ]);
 
+    // Create multiple duties at once
+    $duties = request('duties');
+    foreach ($duties as $dutyData) {
         Duty::create([
-        'staffmember_id' => request('staffmember_id'),
-        'task_id' => request('task_id'),
-        'dutydate' => request('dutydate'),
-        'shift_type' => request('shift_type'),
-        'hours' => request('hours'),
+            'staffmember_id' => $dutyData['staffmember_id'],
+            'task_id' => $dutyData['task_id'],
+            'dutydate' => $dutyData['dutydate'],
+            'shift_type' => $dutyData['shift_type'] ?? null,
+            'hours' => $dutyData['hours'] ?? null,
         ]);
-        return redirect('/duties');
     }
+    
+    return redirect('/duties');
+}
 
     public function show(Duty $duty)
     {

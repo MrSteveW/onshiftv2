@@ -18,8 +18,9 @@ class Duty extends Model
         return $this->belongsTo(Staffmember::class)->withTrashed();
     }
 
-    public function analyser()
+    public function task()
     {
         return $this->belongsTo(Task::class)->withTrashed();
     }
+
 }
